@@ -1,11 +1,33 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
-const CardForm = () => {
+import { getMtgData } from '../actions/actions'
+
+const CardForm = props => {
+
+    const handleGetMtgData = e => {
+        e.preventDefault();
+        props.getMtgData();
+    }
+
     return (
         <>
-            <h2>CardFormtest</h2>
+          {props.isFetchingData ? (
+            <div>fetching data...</div>
+          ) : (
+            <button onClick={handleGetMtgData}>get data</button>
+          )}
         </>
-    )
+      );
 }
 
-export default CardForm
+const mapStateToProps = state => {
+    return{
+        isFetchingData: state.isFetchingData
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    { getMtgData } 
+ )(CardForm)
